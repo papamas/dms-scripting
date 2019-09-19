@@ -1,0 +1,25 @@
+import com.openkm.api.*;
+import com.openkm.bean.*;
+import java.util.List;
+ 
+void findNodePathHelper(String path) {
+    for (Folder fld : OKMFolder.getInstance().getChilds(null,path)) {
+      
+                   
+        findNodePathHelper(fld.getPath());
+        
+        List<Document> col =  OKMDocument.getInstance().getChilds(null, fld.getPath()); 
+        
+        String[] items = fld.getPath().split("/");
+   
+        int itemCount = items.length;
+        
+        if( itemCount == 5 && col.size() == 0){
+              print(fld.getPath() +":"+col.size());
+              OKMFolder.getInstance().delete(null, fld.getPath()); 
+             
+        }
+     }
+}
+ 
+findNodePathHelper("/okm:root/Pemerintah Kab. Gorontalo/");
